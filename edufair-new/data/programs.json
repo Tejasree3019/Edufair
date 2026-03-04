@@ -1,0 +1,390 @@
+{
+  "programs": [
+    {
+      "id": "prog_cs_ug",
+      "name": "Bachelor of Science in Computer Science",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_stanford",
+      "tuitionAnnual": 62000,
+      "careerOutcomes": ["Software Engineer", "Data Scientist", "Product Manager"],
+      "avgSalary": 120000,
+      "employmentRate": 0.95
+    },
+    {
+      "id": "prog_eng_ug",
+      "name": "Bachelor of Science in Engineering",
+      "field": "Engineering",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_mit",
+      "tuitionAnnual": 60000,
+      "careerOutcomes": ["Software Engineer", "Hardware Engineer", "Systems Architect"],
+      "avgSalary": 125000,
+      "employmentRate": 0.97
+    },
+    {
+      "id": "prog_mba_upenn",
+      "name": "Master of Business Administration",
+      "field": "Business",
+      "level": "postgraduate",
+      "duration": 2,
+      "universityId": "uni_upenn",
+      "tuitionAnnual": 75000,
+      "careerOutcomes": ["Management Consultant", "Investment Banker", "Entrepreneur"],
+      "avgSalary": 180000,
+      "employmentRate": 0.98
+    },
+    {
+      "id": "prog_law_harvard",
+      "name": "Juris Doctor",
+      "field": "Law",
+      "level": "postgraduate",
+      "duration": 3,
+      "universityId": "uni_harvard",
+      "tuitionAnnual": 60000,
+      "careerOutcomes": ["Attorney", "Judge", "Legal Consultant"],
+      "avgSalary": 150000,
+      "employmentRate": 0.96
+    },
+    {
+      "id": "prog_med_oxford",
+      "name": "Bachelor of Medicine, Bachelor of Surgery",
+      "field": "Medicine",
+      "level": "undergraduate",
+      "duration": 5,
+      "universityId": "uni_oxford",
+      "tuitionAnnual": 35000,
+      "careerOutcomes": ["Physician", "Surgeon", "Medical Researcher"],
+      "avgSalary": 140000,
+      "employmentRate": 0.99
+    },
+    {
+      "id": "prog_physics_cambridge",
+      "name": "Natural Sciences - Physics",
+      "field": "Physics",
+      "level": "undergraduate",
+      "duration": 3,
+      "universityId": "uni_cambridge",
+      "tuitionAnnual": 35000,
+      "careerOutcomes": ["Physicist", "Research Scientist", "Engineer"],
+      "avgSalary": 110000,
+      "employmentRate": 0.93
+    },
+    {
+      "id": "prog_civil_eng_eth",
+      "name": "Civil Engineering",
+      "field": "Engineering",
+      "level": "undergraduate",
+      "duration": 3,
+      "universityId": "uni_eth_zurich",
+      "tuitionAnnual": 1400,
+      "careerOutcomes": ["Civil Engineer", "Project Manager", "Infrastructure Planner"],
+      "avgSalary": 95000,
+      "employmentRate": 0.94
+    },
+    {
+      "id": "prog_cse_iit_delhi",
+      "name": "B.Tech in Computer Science and Engineering",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_iit_delhi",
+      "tuitionAnnual": 1000,
+      "careerOutcomes": ["Software Engineer", "Data Scientist", "Product Manager"],
+      "avgSalary": 80000,
+      "employmentRate": 0.98
+    },
+    {
+      "id": "prog_mech_iit_bombay",
+      "name": "B.Tech in Mechanical Engineering",
+      "field": "Engineering",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_iit_bombay",
+      "tuitionAnnual": 1000,
+      "careerOutcomes": ["Mechanical Engineer", "Design Engineer", "Manufacturing Manager"],
+      "avgSalary": 75000,
+      "employmentRate": 0.96
+    },
+    {
+      "id": "prog_msc_nus",
+      "name": "Master of Science in Computer Science",
+      "field": "Computer Science",
+      "level": "postgraduate",
+      "duration": 2,
+      "universityId": "uni_national_university_singapore",
+      "tuitionAnnual": 28000,
+      "careerOutcomes": ["Senior Software Engineer", "AI Researcher", "Tech Lead"],
+      "avgSalary": 135000,
+      "employmentRate": 0.97
+    },
+    {
+      "id": "prog_eng_toronto",
+      "name": "Bachelor of Applied Science in Engineering Science",
+      "field": "Engineering",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_toronto",
+      "tuitionAnnual": 33000,
+      "careerOutcomes": ["Software Engineer", "Structural Engineer", "Project Manager"],
+      "avgSalary": 90000,
+      "employmentRate": 0.95
+    },
+    {
+      "id": "prog_medicine_melbourne",
+      "name": "Doctor of Medicine",
+      "field": "Medicine",
+      "level": "postgraduate",
+      "duration": 4,
+      "universityId": "uni_melbourne",
+      "tuitionAnnual": 35000,
+      "careerOutcomes": ["Physician", "Surgeon", "Medical Specialist"],
+      "avgSalary": 160000,
+      "employmentRate": 0.99
+    },
+    {
+      "id": "prog_econ_tokyo",
+      "name": "Bachelor of Economics",
+      "field": "Economics",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_tokyo",
+      "tuitionAnnual": 5000,
+      "careerOutcomes": ["Economist", "Financial Analyst", "Policy Maker"],
+      "avgSalary": 85000,
+      "employmentRate": 0.92
+    },
+    {
+      "id": "prog_mse_tsinghua",
+      "name": "Master of Science in Engineering",
+      "field": "Engineering",
+      "level": "postgraduate",
+      "duration": 2,
+      "universityId": "uni_tsinghua",
+      "tuitionAnnual": 4000,
+      "careerOutcomes": ["Senior Engineer", "Project Lead", "Technical Director"],
+      "avgSalary": 100000,
+      "employmentRate": 0.95
+    },
+    {
+      "id": "prog_business_seoul",
+      "name": "Master of Business Administration",
+      "field": "Business",
+      "level": "postgraduate",
+      "duration": 2,
+      "universityId": "uni_seoul",
+      "tuitionAnnual": 8000,
+      "careerOutcomes": ["Business Manager", "Consultant", "Entrepreneur"],
+      "avgSalary": 120000,
+      "employmentRate": 0.94
+    },
+    {
+      "id": "prog_physics_caltech",
+      "name": "Bachelor of Science in Physics",
+      "field": "Physics",
+      "level": "undergraduate",
+      "duration": 4,
+      "universityId": "uni_caltech",
+      "tuitionAnnual": 62000,
+      "careerOutcomes": ["Physicist", "Research Scientist", "Engineer"],
+      "avgSalary": 115000,
+      "employmentRate": 0.94
+    },
+    {
+      "id": "prog_law_upenn",
+      "name": "Juris Doctor",
+      "field": "Law",
+      "level": "postgraduate",
+      "duration": 3,
+      "universityId": "uni_upenn",
+      "tuitionAnnual": 65000,
+      "careerOutcomes": ["Attorney", "Corporate Counsel", "Judge"],
+      "avgSalary": 155000,
+      "employmentRate": 0.97
+    }
+  ],
+  "courses": [
+    {
+      "id": "course_data_structures",
+      "name": "Data Structures and Algorithms",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "Fundamental data structures, algorithm design and analysis",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_discrete_math",
+      "name": "Discrete Mathematics",
+      "field": "Mathematics",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Logic, set theory, graph theory, combinatorics",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_linear_algebra",
+      "name": "Linear Algebra",
+      "field": "Mathematics",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Vectors, matrices, eigenvalues, applications",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_calculus1",
+      "name": "Calculus I",
+      "field": "Mathematics",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Limits, derivatives, integrals",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_mechanics",
+      "name": "Classical Mechanics",
+      "field": "Physics",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Newtonian mechanics, energy, momentum",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_electromagnetism",
+      "name": "Electromagnetism",
+      "field": "Physics",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Electric fields, magnetic fields, electromagnetic waves",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_chemistry1",
+      "name": "General Chemistry",
+      "field": "Chemistry",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Atomic structure, bonding, reactions",
+      "difficulty": "introductory"
+    },
+    {
+      "id": "course_organic_chem",
+      "name": "Organic Chemistry",
+      "field": "Chemistry",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "Carbon compounds, reactions, mechanisms",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_biology",
+      "name": "Molecular Biology",
+      "field": "Biology",
+      "level": "undergraduate",
+      "credits": 4,
+      "description": "DNA, proteins, cell biology",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_programming",
+      "name": "Programming Fundamentals",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "Python, C++, algorithms, problem solving",
+      "difficulty": "introductory"
+    },
+    {
+      "id": "course_oops",
+      "name": "Object-Oriented Programming",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "Classes, inheritance, polymorphism, design patterns",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_web_dev",
+      "name": "Web Development",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "HTML, CSS, JavaScript, full-stack development",
+      "difficulty": "introductory"
+    },
+    {
+      "id": "course_database",
+      "name": "Database Design and Management",
+      "field": "Computer Science",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "SQL, database design, normalization",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_ai_ml",
+      "name": "Artificial Intelligence and Machine Learning",
+      "field": "Computer Science",
+      "level": "postgraduate",
+      "credits": 4,
+      "description": "ML algorithms, neural networks, deep learning",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "course_business_mgmt",
+      "name": "Business Management",
+      "field": "Business",
+      "level": "undergraduate",
+      "credits": 3,
+      "description": "Organizational behavior, strategic management",
+      "difficulty": "introductory"
+    },
+    {
+      "id": "course_finance",
+      "name": "Corporate Finance",
+      "field": "Business",
+      "level": "postgraduate",
+      "credits": 3,
+      "description": "Financial analysis, valuation, investment decisions",
+      "difficulty": "advanced"
+    },
+    {
+      "id": "course_law1",
+      "name": "Constitutional Law",
+      "field": "Law",
+      "level": "postgraduate",
+      "credits": 3,
+      "description": "Government structure, fundamental rights",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_contracts",
+      "name": "Contract Law",
+      "field": "Law",
+      "level": "postgraduate",
+      "credits": 3,
+      "description": "Agreement, consideration, enforcement",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_anatomy",
+      "name": "Human Anatomy",
+      "field": "Medicine",
+      "level": "postgraduate",
+      "credits": 5,
+      "description": "Body systems, organ structure and function",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "course_pathology",
+      "name": "Pathology and Disease",
+      "field": "Medicine",
+      "level": "postgraduate",
+      "credits": 4,
+      "description": "Disease mechanisms, diagnosis, treatment",
+      "difficulty": "advanced"
+    }
+  ]
+}
