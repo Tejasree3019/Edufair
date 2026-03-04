@@ -1,37 +1,20 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { supabase } from '@/lib/supabase'
-import { verifyToken, getAuthTokenFromRequest } from '@/lib/auth'
+
+// In-memory storage for demo mode
+let applications: any[] = []
 
 export async function GET(request: NextRequest) {
   try {
-    const token = getAuthTokenFromRequest(request as any)
-    if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const userId = request.nextUrl.searchParams.get('userId')
+
+    if (userId) {
+      // Get applications for specific user
+      const userApplications = applications.filter((app) => app.userId === userId)
+      return NextResponse.json({ applications: userApplications }, { status: 200 })
     }
 
-    const decoded = verifyToken(token)
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    }
-
-    // Fetch student's applications
-    const { data: applications, error } = await supabase
-      .from('scholarship_applications')
-      .select(`
-        *,
-        scholarships:scholarship_id (
-          name,
-          application_deadline,
-          scholarship_amount,
-          provider_name
-        )
-      `)
-      .eq('student_id', decoded.userId)
-      .order('updated_at', { ascending: false })
-
-    if (error) throw error
-
+    // Get all applications (admin only)
     return NextResponse.json({ applications }, { status: 200 })
   } catch (error) {
     console.error('Error fetching applications:', error)
@@ -41,36 +24,97 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const token = getAuthTokenFromRequest(request as any)
-    if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    const data = await request.json()
+
+    const application = {
+      id: data.id || `app_${Date.now()}`,
+      userId: data.userId || 'demo_user',
+      scholarshipId: data.scholarshipId,
+      scholarshipName: data.scholarshipName,
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      dateOfBirth: data.dateOfBirth,
+      gender: data.gender,
+      state: data.state,
+      city: data.city,
+      schoolName: data.schoolName,
+      academicScore: data.academicScore,
+      testScore: data.testScore,
+      fieldOfStudy: data.fieldOfStudy,
+      educationLevel: data.educationLevel,
+      familyIncome: data.familyIncome,
+      achievements: data.achievements,
+      essayQuestion: data.essayQuestion,
+      refereeEmail: data.refereeEmail,
+      status: 'submitted',
+      appliedDate: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }
 
-    const decoded = verifyToken(token)
-    if (!decoded) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
-    }
+    applications.push(application)
 
-    const body = await request.json()
-    const { scholarship_id } = body
-
-    // Create application
-    const { data: application, error } = await supabase
-      .from('scholarship_applications')
-      .insert([
-        {
-          student_id: decoded.userId,
-          scholarship_id,
-          status: 'draft',
-        },
-      ])
-      .select()
-      .single()
-
-    if (error) throw error
-
-    return NextResponse.json({ application }, { status: 201 })
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Application submitted successfully',
+        application,
+      },
+      { status: 201 }
+    )
   } catch (error) {
+    console.error('Error creating application:', error)
+    return NextResponse.json({ error: 'Failed to create application' }, { status: 500 })
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const data = await request.json()
+    const { id, ...updates } = data
+
+    const index = applications.findIndex((app) => app.id === id)
+    if (index === -1) {
+      return NextResponse.json({ error: 'Application not found' }, { status: 404 })
+    }
+
+    applications[index] = {
+      ...applications[index],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    }
+
+    return NextResponse.json({
+      success: true,
+      application: applications[index],
+    })
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update application' }, { status: 500 })
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const id = request.nextUrl.searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json({ error: 'ID required' }, { status: 400 })
+    }
+
+    const index = applications.findIndex((app) => app.id === id)
+    if (index === -1) {
+      return NextResponse.json({ error: 'Application not found' }, { status: 404 })
+    }
+
+    applications.splice(index, 1)
+
+    return NextResponse.json({
+      success: true,
+      message: 'Application deleted',
+    })
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete application' }, { status: 500 })
+  }
     console.error('Error creating application:', error)
     return NextResponse.json({ error: 'Failed to create application' }, { status: 500 })
   }

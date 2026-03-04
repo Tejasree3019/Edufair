@@ -197,8 +197,11 @@ export default function Scholarships() {
                     Deadline:{' '}
                     {new Date(scholarship.application_deadline).toLocaleDateString()}
                   </p>
-                  <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-semibold">
-                    View & Apply
+                  <button 
+                    onClick={() => router.push(`/apply/${scholarship.id}?name=${encodeURIComponent(scholarship.name)}`)}
+                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 font-semibold transition-colors"
+                  >
+                    Apply Now
                   </button>
                 </div>
               </div>

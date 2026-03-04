@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import IndiaScholarshipsShowcase from '@/components/IndiaScholarshipsShowcase'
 
 export default function Home() {
   return (
@@ -125,6 +126,9 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* India Scholarships Showcase */}
+      <IndiaScholarshipsShowcase />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 mt-12">
