@@ -115,7 +115,4 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete application' }, { status: 500 })
   }
-    console.error('Error creating application:', error)
-    return NextResponse.json({ error: 'Failed to create application' }, { status: 500 })
-  }
 }
