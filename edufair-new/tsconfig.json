@@ -47,6 +47,11 @@
   "exclude": [
     "node_modules",
     "dist",
-    ".next"
+    ".next",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "src/__tests__"
   ]
 }

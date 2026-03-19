@@ -42,166 +42,199 @@ export default function Scholarships() {
   }
 
   const filteredScholarships = scholarships.filter((s) => {
-    if (filters.country && !s.eligible_countries?.includes(filters.country)) return false
-    if (filters.minAmount && s.scholarship_amount < filters.minAmount) return false
+    const eligibleCountries = s.eligible_countries || s.eligibleCountries || []
+    if (filters.country && !eligibleCountries.includes(filters.country)) return false
+    
+    const amount = s.scholarship_amount || s.amount || 0
+    if (filters.minAmount && amount < filters.minAmount) return false
+    
     if (filters.riskLevel && s.risk_level !== filters.riskLevel) return false
     return true
   })
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="fixed top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+      <div className="fixed bottom-0 right-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+      
       {/* Navigation */}
-      <nav className="bg-white shadow-sm">
+      <nav className="backdrop-blur-xl bg-white/10 border-b border-white/20 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/dashboard" className="text-2xl font-bold text-blue-600">
+          <Link href="/dashboard" className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             EduFair
           </Link>
-          <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">
-            Back to Dashboard
+          <Link href="/dashboard" className="text-gray-300 hover:text-white font-semibold transition-colors flex items-center gap-2">
+            ← Back to Dashboard
           </Link>
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Scholarship Directory</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <div className="mb-12">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">Scholarships</h1>
+          <p className="text-lg text-gray-300 font-light">Discover vetted opportunities for Indian students</p>
+        </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Filters</h2>
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 mb-8 hover:border-white/40 transition-all">
+          <h2 className="text-xl font-bold text-white mb-6">Filter Scholarships</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
                 Country
               </label>
-              <select
-                value={filters.country}
-                onChange={(e) => setFilters({ ...filters, country: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Countries</option>
-                <option value="USA">USA</option>
-                <option value="Canada">Canada</option>
-                <option value="India">India</option>
-                <option value="UK">UK</option>
-              </select>
+              <div className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white font-semibold text-center">
+                India
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Min Award Amount
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Minimum Award Amount
               </label>
               <input
                 type="number"
                 value={filters.minAmount}
                 onChange={(e) => setFilters({ ...filters, minAmount: Number(e.target.value) })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="0"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                placeholder="Enter amount"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Risk Level
+              <label className="block text-sm font-semibold text-gray-300 mb-2">
+                Credibility Level
               </label>
-              <select
-                value={filters.riskLevel}
-                onChange={(e) => setFilters({ ...filters, riskLevel: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">All Levels</option>
-                <option value="low">Low Risk</option>
-                <option value="medium">Medium Risk</option>
-                <option value="high">High Risk</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={filters.riskLevel}
+                  onChange={(e) => setFilters({ ...filters, riskLevel: e.target.value })}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-400 transition-all appearance-none cursor-pointer pr-10"
+                >
+                  <option value="" className="bg-slate-900 text-white">All Levels</option>
+                  <option value="low" className="bg-slate-900 text-white">Low Risk</option>
+                  <option value="medium" className="bg-slate-900 text-white">Medium Risk</option>
+                  <option value="high" className="bg-slate-900 text-white">High Risk</option>
+                </select>
+                <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Scholarships List */}
         {loading ? (
-          <div className="text-center py-8">
-            <p className="text-gray-600">Loading scholarships...</p>
+          <div className="text-center py-16">
+            <div className="inline-block">
+              <div className="relative w-16 h-16 mb-4">
+                <div className="absolute inset-0 border-4 border-blue-200/30 border-t-blue-500 rounded-full animate-spin"></div>
+              </div>
+              <p className="text-gray-300 font-semibold text-lg">Loading scholarships...</p>
+            </div>
           </div>
         ) : filteredScholarships.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-600">No scholarships found matching your filters.</p>
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">🔍</div>
+            <p className="text-gray-300 text-xl mb-6">No scholarships found matching your filters</p>
+            <button 
+              onClick={() => setFilters({ country: '', minAmount: 0, riskLevel: '' })}
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-3 rounded-xl font-bold hover:shadow-xl hover:shadow-blue-500/50 transition-all"
+            >
+              Reset Filters
+            </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
             {filteredScholarships.map((scholarship) => (
               <div
                 key={scholarship.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                className="group bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 hover:border-cyan-400 hover:bg-white/15 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 transform hover:scale-105"
               >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors mb-2">
                       {scholarship.name}
                     </h3>
-                    <p className="text-gray-600">{scholarship.provider_name}</p>
+                    <p className="text-gray-400 font-semibold">{scholarship.provider_name || scholarship.provider || 'Unknown Provider'}</p>
                   </div>
-                  <div className="text-right">
-                    <div className="text-2xl font-bold text-green-600">
-                      ${scholarship.scholarship_amount.toLocaleString()}
+                  <div className="text-right whitespace-nowrap">
+                    <div className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                      {scholarship.currency === 'INR' ? '₹' : '$'}
+                      {(scholarship.amount || scholarship.scholarship_amount || 0).toLocaleString()}
                     </div>
-                    <span className="inline-block text-sm font-semibold">
-                      {scholarship.amount_type === 'full_tuition'
+                    <span className="inline-block text-sm font-bold text-emerald-400 mt-1">
+                      {(scholarship.amountType || scholarship.amount_type) === 'full_tuition'
                         ? '🎓 Full Tuition'
-                        : scholarship.amount_type === 'partial'
+                        : (scholarship.amountType || scholarship.amount_type) === 'partial'
                         ? '📚 Partial'
-                        : '💰 Fixed'}
+                        : '💰 ' + (scholarship.amountType || scholarship.amount_type || 'Fixed')}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-gray-600 mb-4">{scholarship.description}</p>
+                <p className="text-gray-300 mb-6 line-clamp-2">{scholarship.description}</p>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
-                  <div>
-                    <p className="text-gray-600">Credibility</p>
-                    <p className="font-semibold text-gray-900">
-                      {(scholarship.credibility_score * 100).toFixed(0)}%
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-sm">
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">Credibility</p>
+                    <p className="font-bold text-blue-400 text-lg mt-2">
+                      {Math.round((scholarship.credibility_score || scholarship.credibilityScore || 0.8) * 100)}%
                     </p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Acceptance Rate</p>
-                    <p className="font-semibold text-gray-900">
-                      {(scholarship.historical_acceptance_rate * 100).toFixed(0)}%
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">Acceptance</p>
+                    <p className="font-bold text-emerald-400 text-lg mt-2">
+                      {Math.round((scholarship.historical_acceptance_rate || scholarship.acceptanceRate || 0.5) * 100)}%
                     </p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Awards Available</p>
-                    <p className="font-semibold text-gray-900">
-                      {scholarship.total_awards_available || 'N/A'}
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">Awards</p>
+                    <p className="font-bold text-purple-400 text-lg mt-2">
+                      {(scholarship.total_awards_available || scholarship.awardCount || 'N/A').toLocaleString ? (scholarship.total_awards_available || scholarship.awardCount || 'N/A').toLocaleString() : scholarship.total_awards_available || scholarship.awardCount || 'N/A'}
                     </p>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Risk Level</p>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">Risk</p>
                     <p
-                      className={`font-semibold ${
-                        scholarship.risk_level === 'low'
-                          ? 'text-green-600'
-                          : scholarship.risk_level === 'medium'
-                          ? 'text-yellow-600'
-                          : 'text-red-600'
+                      className={`font-bold text-lg mt-2 ${
+                        (scholarship.risk_level || scholarship.riskLevel) === 'low'
+                          ? 'text-green-400'
+                          : (scholarship.risk_level || scholarship.riskLevel) === 'medium'
+                          ? 'text-yellow-400'
+                          : 'text-red-400'
                       }`}
                     >
-                      {scholarship.risk_level.toUpperCase()}
+                      {(scholarship.risk_level || scholarship.riskLevel || 'UNKNOWN').charAt(0).toUpperCase() + (scholarship.risk_level || scholarship.riskLevel || 'UNKNOWN').slice(1)}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">
-                    Deadline:{' '}
-                    {new Date(scholarship.application_deadline).toLocaleDateString()}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
+                  <p className="text-sm text-gray-400 font-semibold">
+                    📅 Deadline: {' '}
+                    <span className="text-cyan-400">
+                      {scholarship.application_deadline 
+                        ? new Date(scholarship.application_deadline).toLocaleDateString('en-IN', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                          })
+                        : scholarship.deadline
+                        ? new Date(scholarship.deadline).toLocaleDateString('en-IN', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                          })
+                        : 'TBD'}
+                    </span>
                   </p>
                   <button 
-                    onClick={() => router.push(`/apply/${scholarship.id}?name=${encodeURIComponent(scholarship.name)}`)}
-                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 font-semibold transition-colors"
+                    onClick={() => router.push(`/scholarship/${scholarship.id}`)}
+                    className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-3 rounded-xl hover:shadow-xl hover:shadow-blue-500/50 font-bold transition-all duration-200 transform hover:scale-105 active:scale-95"
                   >
-                    Apply Now
+                    View Details & Apply →
                   </button>
                 </div>
               </div>

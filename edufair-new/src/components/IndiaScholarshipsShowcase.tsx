@@ -14,11 +14,12 @@ export default function IndiaScholarshipsShowcase() {
 
   const loadIndiaScholarships = async () => {
     try {
-      const response = await fetch('/data/india_scholarships.json')
+      // Fetch from API endpoint which loads real data
+      const response = await fetch('/api/scholarships?country=India&limit=6')
       if (response.ok) {
         const data = await response.json()
         // Show top 6 scholarships
-        setScholarships(data.scholarships.slice(0, 6))
+        setScholarships(data.scholarships || [])
       }
     } catch (error) {
       console.error('Error loading India scholarships:', error)
@@ -32,14 +33,14 @@ export default function IndiaScholarshipsShowcase() {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-r from-orange-50 to-red-50">
+    <section className="py-16 bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
+          <h2 className="text-3xl font-bold text-white mb-3">
             🇮🇳 Featured Indian Scholarships
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Explore top scholarships available for Indian students from IITs, NITs, and government schemes
           </p>
         </div>
@@ -57,7 +58,7 @@ export default function IndiaScholarshipsShowcase() {
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden"
               >
                 {/* Card Header */}
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 p-4 text-white">
+                <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-4 text-white">
                   <h3 className="text-lg font-bold">{scholarship.name}</h3>
                   <p className="text-sm text-orange-100">{scholarship.category}</p>
                 </div>
@@ -72,23 +73,27 @@ export default function IndiaScholarshipsShowcase() {
                     <p className="text-sm text-gray-600">{scholarship.scope}</p>
                   </div>
 
-                  {/* Details */}
+                  {/* Eligibility Details */}
                   <div className="space-y-2 mb-4 text-sm">
                     <p>
-                      <span className="font-semibold text-gray-700">Eligibility:</span>{' '}
-                      <span className="text-gray-600">{scholarship.eligibility}</span>
+                      <span className="font-semibold text-gray-700">Min. GPA:</span>{' '}
+                      <span className="text-gray-600">{scholarship.minGPA || scholarship.min_gpa || 'N/A'}</span>
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-700">Fields:</span>{' '}
+                      <span className="text-gray-600">{Array.isArray(scholarship.eligibleFields) ? scholarship.eligibleFields.join(', ') : scholarship.eligible_fields || 'All'}</span>
+                    </p>
+                    <p>
+                      <span className="font-semibold text-gray-700">Level:</span>{' '}
+                      <span className="text-gray-600">{Array.isArray(scholarship.eligibleLevels) ? scholarship.eligibleLevels.join(', ') : scholarship.eligible_levels || 'Undergraduate'}</span>
                     </p>
                     <p>
                       <span className="font-semibold text-gray-700">Credibility:</span>{' '}
-                      <span className="text-gray-600">{(scholarship.credibility_score * 100).toFixed(0)}%</span>
-                    </p>
-                    <p>
-                      <span className="font-semibold text-gray-700">Awards Available:</span>{' '}
-                      <span className="text-gray-600">{scholarship.awards_available}</span>
+                      <span className="text-gray-600">{scholarship.credibilityScore ? (scholarship.credibilityScore * 100).toFixed(0) : (scholarship.credibility_score * 100).toFixed(0)}%</span>
                     </p>
                     <p>
                       <span className="font-semibold text-gray-700">Deadline:</span>{' '}
-                      <span className="text-gray-600">{scholarship.deadline}</span>
+                      <span className="text-green-600 font-semibold">{scholarship.deadline}</span>
                     </p>
                   </div>
 

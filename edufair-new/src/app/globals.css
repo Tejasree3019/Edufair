@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Prevent layout shift when scrollbar appears/disappears */
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+}
+
+body {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+  min-height: 100vh;
+}
+
+/* Ensure main layouts don't shift */
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Improved select styling for dark theme dropdowns */
+select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ccc' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  padding-right: 2.5rem;
+}
+
+/* Option styling for better visibility */
+option {
+  padding: 0.5rem;
+  color: white;
+  background-color: rgb(30 58 138);
+  background: linear-gradient(rgb(30 58 138), rgb(30 58 138));
+}
+
+option:checked {
+  background: linear-gradient(rgb(59 130 246), rgb(59 130 246));
+  color: white;
+}
+
+/* Focus styles for dark theme selects */
+select:focus {
+  outline: none;
+}
+
+/* Ensure text is visible in select elements */
+select[class*="bg-white/5"] {
+  color: white;
+}
+
+select[class*="text-white"] {
+  color: white;
+}

@@ -28,6 +28,12 @@ CREATE TABLE users (
   institution_type TEXT,
   institution_verified BOOLEAN DEFAULT FALSE,
   
+  -- Profile Completion Status
+  profile_completed BOOLEAN DEFAULT FALSE,
+  email_verified BOOLEAN DEFAULT FALSE,
+  avatar_url TEXT,
+  last_login TIMESTAMP WITH TIME ZONE,
+  
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

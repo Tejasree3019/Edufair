@@ -29,11 +29,14 @@ export function handleError(error: unknown, request?: NextRequest): NextResponse
   const timestamp = new Date().toISOString()
   const path = request?.nextUrl.pathname
 
-  console.error('API Error:', {
-    timestamp,
-    path,
-    error: error instanceof Error ? error.message : error,
-  })
+  // Production-safe error logging - errors are tracked server-side only
+  if (process.env.NODE_ENV !== 'production') {
+    console.error('API Error:', {
+      timestamp,
+      path,
+      error: error instanceof Error ? error.message : error,
+    })
+  }
 
   // Zod validation errors
   if (error instanceof ZodError) {

@@ -124,20 +124,20 @@ export async function initializeDemoData() {
       },
     ]
 
-    // Load real data from JSON files
+    // Load real data from API endpoints
     try {
-      const uniResponse = await fetch('/data/universities.json')
+      const uniResponse = await fetch('/api/universities')
       if (uniResponse.ok) {
         const uniData = await uniResponse.json()
         universities = uniData.universities || []
       }
     } catch (e) {
-      // Fallback: Use hardcoded universities if file not accessible
+      // Fallback: Use hardcoded universities if API not accessible
       universities = getDefaultUniversities()
     }
 
     try {
-      const schResponse = await fetch('/data/scholarships.json')
+      const schResponse = await fetch('/api/scholarships')
       if (schResponse.ok) {
         const schData = await schResponse.json()
         scholarships = schData.scholarships || []
@@ -147,7 +147,7 @@ export async function initializeDemoData() {
     }
 
     try {
-      const progResponse = await fetch('/data/programs.json')
+      const progResponse = await fetch('/api/programs')
       if (progResponse.ok) {
         const progData = await progResponse.json()
         programs = progData.programs || []

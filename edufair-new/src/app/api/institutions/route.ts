@@ -9,13 +9,8 @@ export async function GET(request: NextRequest) {
   try {
     // In demo mode, return demo institutions
     if (DEMO_MODE) {
-      const { searchParams } = new URL(request.url)
-      const country = searchParams.get('country')
-
-      let filtered = [...demoInstitutions]
-      if (country) {
-        filtered = filtered.filter((i) => i.country === country)
-      }
+      // Filter to ONLY India institutions - India focused
+      let filtered = demoInstitutions.filter((i) => i.country === 'India')
 
       return NextResponse.json({
         institutions: filtered.sort(

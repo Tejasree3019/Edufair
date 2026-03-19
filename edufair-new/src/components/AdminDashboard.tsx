@@ -40,11 +40,12 @@ export default function AdminDashboard() {
       return
     }
 
-    // Check if user is admin
+    // Allow access to admin dashboard (demo mode - no role check needed)
     try {
       const user = JSON.parse(userData)
-      if (user.role !== 'admin') {
-        router.push('/dashboard')
+      // Demo mode: Allow all logged-in users to access admin
+      if (!user) {
+        router.push('/login')
         return
       }
     } catch (e) {
@@ -56,38 +57,39 @@ export default function AdminDashboard() {
 
   const fetchAdminStats = async (token: string) => {
     try {
-      // Mock admin stats
-      const mockStats: AdminStats = {
-        totalUsers: 1250,
-        totalApplications: 3847,
-        totalScholarships: 20,
-        successRate: 34,
-        avgApplicationTime: 15,
-        topScholarships: [
-          { name: 'KVPY Fellowship', applications: 450, acceptanceRate: 78 },
-          { name: 'IIT JEE Merit', applications: 380, acceptanceRate: 62 },
-          { name: 'National Scholarship Scheme', applications: 320, acceptanceRate: 58 },
-          { name: 'BITS Pilani', applications: 290, acceptanceRate: 45 },
-          { name: 'VIT Merit', applications: 250, acceptanceRate: 52 },
-        ],
-        applicationsByStatus: {
-          submitted: 1200,
-          reviewing: 850,
-          accepted: 1300,
-          rejected: 497,
+      // Fetch real admin stats from API
+      const response = await fetch('/api/admin/stats', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-        recentApplications: [
-          { id: 'app_001', scholarship: 'KVPY Fellowship', student: 'Raj Kumar', status: 'Accepted', date: '2024-01-15' },
-          { id: 'app_002', scholarship: 'IIT JEE Merit', student: 'Priya Singh', status: 'Under Review', date: '2024-01-14' },
-          { id: 'app_003', scholarship: 'National Scholarship', student: 'Amit Patel', status: 'Submitted', date: '2024-01-13' },
-          { id: 'app_004', scholarship: 'BITS Pilani', student: 'Sarah Ahmed', status: 'Accepted', date: '2024-01-12' },
-          { id: 'app_005', scholarship: 'VIT Merit', student: 'Kumar Sharma', status: 'Rejected', date: '2024-01-11' },
-        ],
+      })
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch admin stats: ${response.statusText}`)
       }
 
-      setStats(mockStats)
+      const stats: AdminStats = await response.json()
+      setStats(stats)
     } catch (error) {
       console.error('Error fetching admin stats:', error)
+      // Set empty stats to show dashboard with no data message
+      setStats({
+        totalUsers: 0,
+        totalApplications: 0,
+        totalScholarships: 0,
+        successRate: 0,
+        avgApplicationTime: 0,
+        applicationsByStatus: {
+          submitted: 0,
+          reviewing: 0,
+          accepted: 0,
+          rejected: 0,
+        },
+        topScholarships: [],
+        recentApplications: [],
+      })
     } finally {
       setLoading(false)
     }
@@ -95,42 +97,51 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-gray-600">Loading admin dashboard...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
+        <div className="fixed top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        <div className="fixed bottom-0 right-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        <p className="text-gray-300 relative z-10">Loading admin dashboard...</p>
       </div>
     )
   }
 
   if (!stats) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <p className="text-red-600">Failed to load admin dashboard</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
+        <div className="fixed top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        <div className="fixed bottom-0 right-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        <p className="text-red-400 relative z-10">Failed to load admin dashboard</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden" style={{ height: '100%' }}>
+      {/* Background blobs */}
+      <div className="fixed top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+      <div className="fixed bottom-0 right-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+      <div className="fixed top-1/2 left-1/2 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="bg-white/10 backdrop-blur-xl border-b border-white/20 sticky top-0 z-50 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-gray-600 mt-2">Platform analytics and management</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-white">Admin Dashboard</h1>
+          <p className="text-gray-300 mt-2 text-sm">Platform analytics and management</p>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+      <div className="bg-white/5 backdrop-blur-xl border-b border-white/20 sticky top-20 z-40 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8">
             {(['overview', 'applications', 'scholarships', 'users'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-bold text-sm transition-all duration-200 ${
                   activeTab === tab
-                    ? 'border-indigo-500 text-indigo-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-cyan-400 text-cyan-300'
+                    : 'border-transparent text-gray-400 hover:text-gray-300 hover:border-white/20'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -140,95 +151,107 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-3xl font-bold text-gray-900">{stats.totalUsers.toLocaleString()}</div>
-                <div className="text-sm text-gray-600 mt-2">Total Users</div>
-                <div className="text-xs text-green-600 mt-2">+12% from last month</div>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all hover:scale-105">
+                <div className="text-2xl font-bold text-blue-400">{stats.totalUsers.toLocaleString()}</div>
+                <div className="text-xs text-gray-300 mt-2 font-semibold uppercase">Total Users</div>
+                <div className="text-xs text-gray-400 mt-2 font-medium">Platform Members</div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-3xl font-bold text-gray-900">{stats.totalApplications.toLocaleString()}</div>
-                <div className="text-sm text-gray-600 mt-2">Total Applications</div>
-                <div className="text-xs text-green-600 mt-2">+8% from last month</div>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all hover:scale-105">
+                <div className="text-2xl font-bold text-purple-400">{stats.totalApplications.toLocaleString()}</div>
+                <div className="text-xs text-gray-300 mt-2 font-semibold uppercase">Total Applications</div>
+                <div className="text-xs text-gray-400 mt-2 font-medium">This Year</div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-3xl font-bold text-gray-900">{stats.totalScholarships}</div>
-                <div className="text-sm text-gray-600 mt-2">Scholarships Listed</div>
-                <div className="text-xs text-blue-600 mt-2">India-focused</div>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all hover:scale-105">
+                <div className="text-2xl font-bold text-emerald-400">{stats.totalScholarships}</div>
+                <div className="text-xs text-gray-300 mt-2 font-semibold uppercase">Scholarships Listed</div>
+                <div className="text-xs text-cyan-400 mt-2 font-bold">India-focused</div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-3xl font-bold text-green-600">{stats.successRate}%</div>
-                <div className="text-sm text-gray-600 mt-2">Success Rate</div>
-                <div className="text-xs text-gray-600 mt-2">Overall acceptance</div>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all hover:scale-105">
+                <div className="text-2xl font-bold text-teal-400">{stats.successRate}%</div>
+                <div className="text-xs text-gray-300 mt-2 font-semibold uppercase">Success Rate</div>
+                <div className="text-xs text-gray-400 mt-2 font-medium">Overall acceptance</div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-3xl font-bold text-gray-900">{stats.avgApplicationTime} min</div>
-                <div className="text-sm text-gray-600 mt-2">Avg Time to Apply</div>
-                <div className="text-xs text-green-600 mt-2">User-friendly</div>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all hover:scale-105">
+                <div className="text-2xl font-bold text-orange-400">{stats.avgApplicationTime} min</div>
+                <div className="text-xs text-gray-300 mt-2 font-semibold uppercase">Avg Time to Apply</div>
+                <div className="text-xs text-green-400 mt-2 font-bold">User-friendly</div>
               </div>
             </div>
 
             {/* Application Status Distribution */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Applications by Status</h3>
-                <div className="space-y-4">
-                  {Object.entries(stats.applicationsByStatus).map(([status, count]) => {
-                    const total = Object.values(stats.applicationsByStatus).reduce((a, b) => a + b, 0)
-                    const percentage = Math.round((count / total) * 100)
-                    const colors: Record<string, string> = {
-                      submitted: 'bg-blue-500',
-                      reviewing: 'bg-yellow-500',
-                      accepted: 'bg-green-500',
-                      rejected: 'bg-red-500',
-                    }
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">Applications by Status</h3>
+                {Object.values(stats.applicationsByStatus).reduce((a: number, b: number) => a + b, 0) === 0 ? (
+                  <div className="flex items-center justify-center h-32 text-center">
+                    <p className="text-gray-400">No applications yet. Applications will appear here once submitted.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {Object.entries(stats.applicationsByStatus).map(([status, count]) => {
+                      const total = Object.values(stats.applicationsByStatus).reduce((a: number, b: number) => a + b, 0)
+                      const percentage = total > 0 ? Math.round((count / total) * 100) : 0
+                      const colors: Record<string, string> = {
+                        submitted: 'bg-blue-500',
+                        reviewing: 'bg-yellow-500',
+                        accepted: 'bg-green-500',
+                        rejected: 'bg-red-500',
+                      }
 
-                    return (
-                      <div key={status}>
-                        <div className="flex justify-between mb-2">
-                          <span className="font-medium text-gray-700 capitalize">{status}</span>
-                          <span className="text-gray-600">{count.toLocaleString()} ({percentage}%)</span>
+                      return (
+                        <div key={status}>
+                          <div className="flex justify-between mb-2">
+                            <span className="font-medium text-gray-300 capitalize">{status}</span>
+                            <span className="text-gray-400">{count.toLocaleString()} ({percentage}%)</span>
+                          </div>
+                          <div className="w-full bg-white/10 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full ${colors[status] || 'bg-gray-500'}`}
+                              style={{ width: `${percentage}%` }}
+                            ></div>
+                          </div>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div
-                            className={`h-2 rounded-full ${colors[status] || 'bg-gray-500'}`}
-                            style={{ width: `${percentage}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
 
               {/* Top Scholarships */}
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Scholarships</h3>
-                <div className="space-y-4">
-                  {stats.topScholarships.map((scholarship, index) => (
-                    <div key={index} className="pb-4 border-b last:border-b-0">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <p className="font-medium text-gray-900">{scholarship.name}</p>
-                          <p className="text-sm text-gray-600">{scholarship.applications.toLocaleString()} applications</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-lg font-bold text-green-600">{scholarship.acceptanceRate}%</p>
-                          <p className="text-xs text-gray-600">Acceptance Rate</p>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">Top Scholarships</h3>
+                {stats.topScholarships.length === 0 ? (
+                  <div className="flex items-center justify-center h-32 text-center">
+                    <p className="text-gray-400">No scholarships with applications yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {stats.topScholarships.map((scholarship, index) => (
+                      <div key={index} className="pb-4 border-b border-white/10 last:border-b-0">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="font-medium text-white">{scholarship.name}</p>
+                            <p className="text-sm text-gray-400">{scholarship.applications.toLocaleString()} applications</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-lg font-bold text-emerald-400">{scholarship.acceptanceRate}%</p>
+                            <p className="text-xs text-gray-400">Acceptance Rate</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -236,91 +259,109 @@ export default function AdminDashboard() {
 
         {/* Applications Tab */}
         {activeTab === 'applications' && (
-          <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900">Recent Applications</h2>
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 overflow-hidden">
+            <div className="p-6 border-b border-white/20">
+              <h2 className="text-xl font-semibold text-white">Recent Applications</h2>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Scholarship</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {stats.recentApplications.map((app) => {
-                    const statusColors: Record<string, string> = {
-                      'Accepted': 'bg-green-100 text-green-800',
-                      'Under Review': 'bg-yellow-100 text-yellow-800',
-                      'Submitted': 'bg-blue-100 text-blue-800',
-                      'Rejected': 'bg-red-100 text-red-800',
-                    }
+            {stats.recentApplications.length === 0 ? (
+              <div className="flex items-center justify-center h-64">
+                <p className="text-gray-400 text-center">No applications submitted yet.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-white/5 border-b border-white/20">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Scholarship</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Student</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/10">
+                    {stats.recentApplications.map((app) => {
+                      const statusColors: Record<string, string> = {
+                        'Accepted': 'bg-green-500/20 text-green-300 border border-green-400/30',
+                        'Under Review': 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30',
+                        'Submitted': 'bg-blue-500/20 text-blue-300 border border-blue-400/30',
+                        'Rejected': 'bg-red-500/20 text-red-300 border border-red-400/30',
+                      }
 
-                    return (
-                      <tr key={app.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 text-sm font-mono text-gray-900">{app.id}</td>
-                        <td className="px-6 py-4 text-sm text-gray-900">{app.scholarship}</td>
-                        <td className="px-6 py-4 text-sm text-gray-900">{app.student}</td>
+                      return (
+                        <tr key={app.id} className="hover:bg-white/5">
+                          <td className="px-6 py-4 text-sm font-mono text-white">{app.id}</td>
+                          <td className="px-6 py-4 text-sm text-white">{app.scholarship}</td>
+                          <td className="px-6 py-4 text-sm text-white">{app.student}</td>
+                          <td className="px-6 py-4 text-sm">
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[app.status] || 'bg-gray-500/20 text-gray-300 border border-gray-400/30'}`}>
+                              {app.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-400">{app.date}</td>
                         <td className="px-6 py-4 text-sm">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[app.status] || 'bg-gray-100 text-gray-800'}`}>
-                            {app.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-gray-600">{app.date}</td>
-                        <td className="px-6 py-4 text-sm">
-                          <button className="text-indigo-600 hover:text-indigo-900 font-medium">Review</button>
+                          <button className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">Review</button>
                         </td>
                       </tr>
                     )
                   })}
                 </tbody>
               </table>
-            </div>
+              </div>
+            )}
           </div>
         )}
 
         {/* Scholarships Tab */}
         {activeTab === 'scholarships' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {stats.topScholarships.map((scholarship, index) => (
-              <div key={index} className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{scholarship.name}</h3>
-                <div className="space-y-2 mb-4">
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Applications:</span> {scholarship.applications.toLocaleString()}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Acceptance Rate:</span> {scholarship.acceptanceRate}%
-                  </p>
-                </div>
-                <div className="flex gap-2 pt-4 border-t">
-                  <button className="flex-1 text-indigo-600 hover:text-indigo-900 text-sm font-medium">Edit</button>
-                  <button className="flex-1 text-red-600 hover:text-red-900 text-sm font-medium">Remove</button>
-                </div>
+          <>
+            {stats.topScholarships.length === 0 ? (
+              <div className="flex items-center justify-center h-64">
+                <p className="text-gray-400 text-center">No scholarships listed yet.</p>
               </div>
-            ))}
-          </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {stats.topScholarships.map((scholarship, index) => (
+                  <div key={index} className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-white/40 hover:bg-white/15 p-6 transition-all">
+                    <h3 className="text-lg font-semibold text-white mb-2">{scholarship.name}</h3>
+                    <div className="space-y-2 mb-4">
+                      <p className="text-sm text-gray-300">
+                        <span className="font-medium">Applications:</span> {scholarship.applications.toLocaleString()}
+                      </p>
+                      <p className="text-sm text-gray-300">
+                        <span className="font-medium">Acceptance Rate:</span> {scholarship.acceptanceRate}%
+                      </p>
+                    </div>
+                    <div className="flex gap-3 pt-4 border-t border-white/10 mt-4">
+                      <button className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95">
+                        Edit
+                      </button>
+                      <button className="flex-1 bg-red-500/20 text-red-300 border border-red-400/30 px-4 py-2 rounded-lg font-semibold hover:bg-red-500/30 transition-all duration-200 active:scale-95">
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
 
         {/* Users Tab */}
         {activeTab === 'users' && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">User Management</h2>
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-6">
+            <h2 className="text-xl font-semibold text-white mb-6">User Management</h2>
             <div className="space-y-4">
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="text-gray-600">
-                  Total Users: <span className="font-bold text-gray-900">{stats.totalUsers.toLocaleString()}</span>
+              <div className="bg-white/10 border border-white/20 p-4 rounded-lg">
+                <p className="text-gray-300">
+                  Total Users: <span className="font-bold text-white">{stats.totalUsers.toLocaleString()}</span>
                 </p>
-                <p className="text-gray-600 mt-2">
-                  Active This Month: <span className="font-bold text-gray-900">{Math.round(stats.totalUsers * 0.65).toLocaleString()}</span>
+                <p className="text-gray-300 mt-2">
+                  Active This Month: <span className="font-bold text-white">{Math.round(stats.totalUsers * 0.65).toLocaleString()}</span>
                 </p>
               </div>
-              <button className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium">
+              <button className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg hover:shadow-xl font-medium transition-all hover:scale-105">
                 Export User Data
               </button>
             </div>

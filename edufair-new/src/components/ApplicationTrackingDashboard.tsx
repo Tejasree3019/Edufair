@@ -119,54 +119,52 @@ export default function ApplicationTrackingDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="py-8 px-4 sm:px-6 lg:px-8 relative z-10">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Application Tracker</h1>
-          <p className="text-gray-600">Monitor and manage your scholarship applications</p>
-        </div>
+          <h1 className="text-3xl font-bold text-white mb-2\">Application Tracking</h1>\n          <p className="text-gray-300 text-sm font-light\">Monitor and manage your scholarship applications</p>\n        </div>
 
         {/* Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-gray-900">{stats.total}</div>
-            <div className="text-sm text-gray-600">Total Applications</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-white">{stats.total}</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Total Applications</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-blue-600">{stats.submitted}</div>
-            <div className="text-sm text-gray-600">Submitted</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-blue-400">{stats.submitted}</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Submitted</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-yellow-600">{stats.reviewing}</div>
-            <div className="text-sm text-gray-600">Under Review</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-yellow-400">{stats.reviewing}</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Under Review</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-green-600">{stats.accepted}</div>
-            <div className="text-sm text-gray-600">Accepted</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-green-400">{stats.accepted}</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Accepted</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-red-600">{stats.rejected}</div>
-            <div className="text-sm text-gray-600">Rejected</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-red-400">{stats.rejected}</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Rejected</div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="text-3xl font-bold text-indigo-600">{stats.successRate}%</div>
-            <div className="text-sm text-gray-600">Success Rate</div>
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all">
+            <div className="text-2xl font-bold text-indigo-400">{stats.successRate}%</div>
+            <div className="text-xs text-gray-300 mt-1 font-medium">Success Rate</div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow p-4 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Filter Applications</h2>
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all mb-8">
+          <h2 className="text-lg font-semibold text-white mb-4">Filter Applications</h2>
           <div className="flex flex-wrap gap-2">
             {(['all', 'submitted', 'reviewing', 'accepted', 'rejected'] as const).map((status) => (
               <button
                 key={status}
                 onClick={() => setFilter(status)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-6 py-2 rounded-lg font-semibold transition-all text-sm ${
                   filter === status
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-lg hover:scale-105'
+                    : 'bg-white/10 text-gray-300 border border-white/20 hover:bg-white/20 hover:text-white'
                 }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -178,14 +176,14 @@ export default function ApplicationTrackingDashboard() {
         {/* Applications List */}
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">Loading your applications...</p>
+            <p className="text-gray-300 text-sm">Loading your applications...</p>
           </div>
         ) : filteredApplications.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg shadow">
-            <p className="text-gray-600 mb-4">No applications found</p>
+          <div className="text-center py-12 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8">
+            <p className="text-gray-300 mb-6 text-base">No applications found</p>
             <button
               onClick={() => router.push('/scholarships')}
-              className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700"
+              className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-3 rounded-lg font-bold hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95"
             >
               Browse Scholarships
             </button>
@@ -193,16 +191,22 @@ export default function ApplicationTrackingDashboard() {
         ) : (
           <div className="space-y-4">
             {filteredApplications.map((app) => (
-              <div key={app.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div key={app.id} className="bg-white/10 backdrop-blur-xl rounded-2xl hover:bg-white/15 transition-all border border-white/20 hover:border-white/40">
                 <div className="p-6">
                   {/* Application Header */}
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-900">{app.scholarshipName}</h3>
-                      <p className="text-sm text-gray-600">Applied on {new Date(app.appliedDate).toLocaleDateString()}</p>
+                      <h3 className="text-xl font-bold text-white mb-1">{app.scholarshipName}</h3>
+                      <p className="text-sm text-gray-300">Applied on {new Date(app.appliedDate).toLocaleDateString()}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusBadgeColor(app.status)}`}>
+                      <span className={`px-4 py-2 rounded-full text-sm font-bold ${
+                        app.status === 'submitted' ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30' :
+                        app.status === 'reviewing' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-400/30' :
+                        app.status === 'accepted' ? 'bg-green-500/20 text-green-300 border border-green-400/30' :
+                        app.status === 'rejected' ? 'bg-red-500/20 text-red-300 border border-red-400/30' :
+                        'bg-gray-500/20 text-gray-300 border border-gray-400/30'
+                      }`}>
                         {getStatusIcon(app.status)} {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
                       </span>
                     </div>
@@ -211,52 +215,52 @@ export default function ApplicationTrackingDashboard() {
                   {/* Application Details */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div>
-                      <p className="text-xs text-gray-600 uppercase">Application ID</p>
-                      <p className="font-mono text-sm text-gray-900">{app.id}</p>
+                      <p className="text-xs text-gray-400 uppercase">Application ID</p>
+                      <p className="font-mono text-sm text-white">{app.id}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600 uppercase">Last Updated</p>
-                      <p className="text-sm text-gray-900">{new Date(app.updatedAt).toLocaleDateString()}</p>
+                      <p className="text-xs text-gray-400 uppercase">Last Updated</p>
+                      <p className="text-sm text-white">{new Date(app.updatedAt).toLocaleDateString()}</p>
                     </div>
                     {app.matchPercentage && (
                       <div>
-                        <p className="text-xs text-gray-600 uppercase">Match Percentage</p>
+                        <p className="text-xs text-gray-400 uppercase">Match Percentage</p>
                         <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-indigo-600"
+                              className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
                               style={{ width: `${app.matchPercentage}%` }}
                             ></div>
                           </div>
-                          <p className="text-sm font-medium text-gray-900">{app.matchPercentage}%</p>
+                          <p className="text-sm font-medium text-white">{app.matchPercentage}%</p>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* Timeline */}
-                  <div className="border-t pt-4 mt-4">
+                  <div className="border-t border-white/20 pt-4 mt-4">
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="text-gray-600">Status Timeline:</span>
+                      <span className="text-gray-400">Status Timeline:</span>
                       <div className="flex items-center gap-1">
-                        <span className="inline-block w-2 h-2 bg-blue-500 rounded-full"></span>
-                        <span className="text-gray-700">Submitted</span>
+                        <span className="inline-block w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span className="text-gray-300">Submitted</span>
                       </div>
                       {['reviewing', 'accepted', 'rejected'].includes(app.status) && (
                         <>
-                          <span className="text-gray-400">→</span>
+                          <span className="text-gray-500">→</span>
                           <div className="flex items-center gap-1">
-                            <span className={`inline-block w-2 h-2 rounded-full ${app.status === 'reviewing' ? 'bg-yellow-500' : 'bg-gray-300'}`}></span>
-                            <span className="text-gray-700">Under Review</span>
+                            <span className={`inline-block w-2 h-2 rounded-full ${app.status === 'reviewing' ? 'bg-yellow-400' : 'bg-gray-500'}`}></span>
+                            <span className="text-gray-300">Under Review</span>
                           </div>
                         </>
                       )}
                       {(app.status === 'accepted' || app.status === 'rejected') && (
                         <>
-                          <span className="text-gray-400">→</span>
+                          <span className="text-gray-500">→</span>
                           <div className="flex items-center gap-1">
-                            <span className={`inline-block w-2 h-2 rounded-full ${app.status === 'accepted' ? 'bg-green-500' : 'bg-red-500'}`}></span>
-                            <span className="text-gray-700">{app.status === 'accepted' ? 'Accepted' : 'Rejected'}</span>
+                            <span className={`inline-block w-2 h-2 rounded-full ${app.status === 'accepted' ? 'bg-green-400' : 'bg-red-400'}`}></span>
+                            <span className="text-gray-300">{app.status === 'accepted' ? 'Accepted' : 'Rejected'}</span>
                           </div>
                         </>
                       )}
@@ -264,15 +268,15 @@ export default function ApplicationTrackingDashboard() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2 mt-4 pt-4 border-t">
+                  <div className="flex gap-3 mt-4 pt-4 border-t border-white/20">
                     <button
                       onClick={() => setSelectedApp(app)}
-                      className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium"
+                      className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95"
                     >
                       View Details
                     </button>
                     {app.status === 'submitted' && (
-                      <button className="flex-1 bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 font-medium">
+                      <button className="flex-1 bg-red-500/20 text-red-300 border border-red-400/30 px-4 py-2 rounded-lg font-semibold hover:bg-red-500/30 transition-all duration-200">
                         Withdraw
                       </button>
                     )}
@@ -319,10 +323,10 @@ export default function ApplicationTrackingDashboard() {
                   </div>
                 </div>
 
-                <div className="mt-6 flex gap-2">
+                <div className="mt-6 flex gap-3">
                   <button
                     onClick={() => setSelectedApp(null)}
-                    className="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium"
+                    className="flex-1 bg-gradient-primary text-white px-4 py-2 rounded-lg font-semibold shadow-button hover:shadow-button-lg hover:scale-105 transition-all duration-200 active:scale-95"
                   >
                     Close
                   </button>

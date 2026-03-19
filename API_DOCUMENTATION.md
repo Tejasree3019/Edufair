@@ -155,9 +155,9 @@ Response (200):
     "applicationUrl": "https://apply.example.com",
     "contactEmail": "contact@example.com",
     "statistics": {
-      "applicants": 1250,
-      "awardees": 50,
-      "acceptanceRate": 4,
+      "applicants": 3,
+      "awardees": 2,
+      "acceptanceRate": 67,
       "avgAwardAmount": 45000
     }
   }
@@ -374,18 +374,18 @@ Response (200):
 {
   "success": true,
   "metrics": {
-    "totalUsers": 1250,
-    "totalApplications": 3847,
-    "totalScholarships": 20,
-    "successRate": 34,
-    "avgProcessingTime": 15
+    "totalUsers": 12,
+    "totalApplications": 28,
+    "totalScholarships": 40,
+    "successRate": 64,
+    "avgProcessingTime": 12
   },
   "topScholarships": [
     {
       "id": "scholarship_1",
-      "name": "Name",
-      "applications": 250,
-      "acceptanceRate": 8
+      "name": "KVPY Fellowship",
+      "applications": 4,
+      "acceptanceRate": 75
     }
   ],
   "recentApplications": [...]
@@ -410,7 +410,7 @@ Response (200):
       "status": "active"
     }
   ],
-  "pagination": { "total": 1250, "page": 1, "limit": 50 }
+  "pagination": { "total": 12, "page": 1, "limit": 50 }
 }
 ```
 
@@ -441,10 +441,10 @@ Response (200):
   "success": true,
   "data": {
     "january": {
-      "applications": 450,
-      "accepted": 155,
-      "rejected": 120,
-      "pending": 175
+      "applications": 8,
+      "accepted": 5,
+      "rejected": 1,
+      "pending": 2
     },
     "february": {...}
   }
